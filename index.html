@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Случайный заголовок</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+            background-color: #000000;
+        }
+        h1 {
+            color: #333;
+        }
+    </style>
+<video controls src="videos/vim.mp4"></video>
+</head>
+<body>
+
+    <script>
+        // Массив с возможными заголовками
+        const titles = [
+            "",
+            "✡⚐🕆 😐☠⚐🕈",
+            "✡⚐🕆 ☹☜✌👎 💣☜",
+            "✡⚐🕆 👎⚐☠🕯❄ 🕈✌☠❄ ❄⚐ ❄✌☹😐 ❄⚐ 💣☜",
+            "✋❄🕯💧 👎✌☼😐 ✋☠ ☟☜☼☜",
+        ];
+
+        // Функция для выбора случайного заголовка
+        function getRandomTitle() {
+            const randomIndex = Math.floor(Math.random() * titles.length);
+            return titles[randomIndex];
+        }
+
+        // Обновление заголовка каждую секунду
+        setInterval(() => {
+            document.title = getRandomTitle();
+        }, 0,1    ); // 1000 мс = 1 секунда
+    </script>
+</body>
+</html>
