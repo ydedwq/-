@@ -3,42 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Случайный заголовок</title>
+    <title>Обратный отсчёт до 1 апреля 17:00 (Москва)</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding-top: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
             background-color: #000000;
+            flex-direction: column;
+            color: white;
         }
-        h1 {
-            color: #333;
+
+        .countdown-container {
+            background-color: #1a1a1a;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            text-align: center;
+            border: 1px solid #333;
+            margin: 20px;
+            max-width: 800px;
+            width: 90%;
+        }
+
+        .countdown {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #00ff88;
+            margin: 1rem 0;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .countdown > div {
+            padding: 10px;
+            min-width: 100px;
+        }
+
+        .label {
+            font-size: 1.2rem;
+            color: #888;
+            margin-top: 0.5rem;
+        }
+
+        .title {
+            font-size: 2rem;
+            color: #00b4d8;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px rgba(0, 180, 216, 0.3);
+        }
+
+        .download-btn {
+            background-color: #00ff88;
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+            display: inline-block;
+        }
+
+        .download-btn:hover {
+            background-color: #00e676;
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.8);
+        }
+
+        .celebration {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+        
+        .title {
+            animation: pulse 2s infinite;
+        }
+
+        @media (max-width: 600px) {
+            .countdown {
+                font-size: 2rem;
+                gap: 10px;
+            }
+            .countdown > div {
+                min-width: 80px;
+            }
+            .title {
+                font-size: 1.5rem;
+            }
         }
     </style>
-<video controls src="videos/vim.mp4"></video>
 </head>
 <body>
+    <div class="countdown-container">
+        <div class="title">До 1 апреля 17:00 (Москва) осталось:</div>
+        <div class="countdown">
+            <div>
+                <span id="days">00</span>
+                <div class="label">Дней</div>
+            </div>
+            <div>
+                <span id="hours">00</span>
+                <div class="label">Часов</div>
+            </div>
+            <div>
+                <span id="minutes">00</span>
+                <div class="label">Минут</div>
+            </div>
+            <div>
+                <span id="seconds">00</span>
+                <div class="label">Секунд</div>
+            </div>
+        </div>
+        <div class="celebration" id="celebration">
+            <div style="font-size: 4rem; text-shadow: 0 0 20px #00ff88; margin-bottom: 20px;">🎉</div>
+            <a href="your-file.zip" download class="download-btn" id="download-btn">Скачать файл</a>
+        </div>
+    </div>
+
+    <audio id="audio-player" hidden></audio>
 
     <script>
-        // Массив с возможными заголовками
-        const titles = [
-            "",
-            "✡⚐🕆 😐☠⚐🕈",
-            "✡⚐🕆 ☹☜✌👎 💣☜",
-            "✡⚐🕆 👎⚐☠🕯❄ 🕈✌☠❄ ❄⚐ ❄✌☹😐 ❄⚐ 💣☜",
-            "✋❄🕯💧 👎✌☼😐 ✋☠ ☟☜☼☜",
+        // Конфигурация
+        const sounds = [
+            'sound1.ogg','sound2.ogg','sound3.ogg','sound4.ogg','sound5.ogg','sound6.ogg'
         ];
+        
+        // Укажите имя вашего файла для скачивания
+        const fileToDownload = 'rod-1.0.0-forge-1.20.1.jar'; // Замените на ваш файл
 
-        // Функция для выбора случайного заголовка
-        function getRandomTitle() {
-            const randomIndex = Math.floor(Math.random() * titles.length);
-            return titles[randomIndex];
+        // Получение московского времени (UTC+3)
+        function getMoscowTime() {
+            const now = new Date();
+            return new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (3 * 3600000));
         }
 
-        // Обновление заголовка каждую секунду
-        setInterval(() => {
-            document.title = getRandomTitle();
-        }, 0,1    ); // 1000 мс = 1 секунда
+        // Воспроизведение случайного звука
+        function playRandomSound() {
+            if (document.hidden) return;
+            
+            const audio = document.getElementById('audio-player');
+            const randomIndex = Math.floor(Math.random() * sounds.length);
+            
+            audio.src = sounds[randomIndex];
+            audio.play().catch(error => {
+                console.log('Автовоспроизведение заблокировано:', error);
+            });
+        }
+
+        // Запуск интервалов для звуков
+        function startSoundSchedule() {
+            const minDelay = 15000; // 15 секунд
+            const maxDelay = 45000; // 45 секунд
+            
+            setInterval(() => {
+                const nextPlay = Math.random() * (maxDelay - minDelay) + minDelay;
+                setTimeout(playRandomSound, nextPlay);
+            }, maxDelay);
+        }
+
+        // Обновление отсчёта
+        function updateCountdown() {
+            const now = getMoscowTime();
+            let targetYear = now.getFullYear();
+            
+            // Устанавливаем целевую дату 1 апреля 17:00 по Москве
+            const targetDate = new Date(Date.UTC(targetYear, 3, 1, 14, 0, 0)); // 14:00 UTC = 17:00 MSK
+            targetDate.setUTCHours(targetDate.getUTCHours() - 3); // Корректировка для московского времени
+
+            if(now > targetDate) {
+                // Показываем праздничное сообщение и кнопку
+                document.querySelector('.countdown').style.display = 'none';
+                document.querySelector('.title').textContent = '1 апреля 17:00 наступило!';
+                document.getElementById('celebration').style.display = 'flex';
+                document.getElementById('download-btn').href = fileToDownload;
+                return;
+            }
+            
+            const difference = targetDate - now;
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        // Инициализация
+        window.addEventListener('DOMContentLoaded', () => {
+            startSoundSchedule();
+            setInterval(updateCountdown, 1000);
+            updateCountdown();
+        });
     </script>
 </body>
 </html>
