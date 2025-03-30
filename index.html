@@ -59,7 +59,7 @@
             text-shadow: 0 0 15px rgba(0, 180, 216, 0.3);
         }
 
-        .download-btn {
+        .site-btn {
             background-color: #00ff88;
             color: #000;
             border: none;
@@ -75,7 +75,7 @@
             display: inline-block;
         }
 
-        .download-btn:hover {
+        .site-btn:hover {
             background-color: #00e676;
             transform: scale(1.05);
             box-shadow: 0 0 20px rgba(0, 255, 136, 0.8);
@@ -134,7 +134,7 @@
         </div>
         <div class="celebration" id="celebration">
             <div style="font-size: 4rem; text-shadow: 0 0 20px #00ff88; margin-bottom: 20px;">🎉</div>
-            <a href="your-file.zip" download class="download-btn" id="download-btn">Скачать файл</a>
+            <a href="https://example.com" target="_blank" class="site-btn" id="site-btn">Перейти на сайт</a>
         </div>
     </div>
 
@@ -143,11 +143,16 @@
     <script>
         // Конфигурация
         const sounds = [
-            'sound1.ogg','sound2.ogg','sound3.ogg','sound4.ogg','sound5.ogg','sound6.ogg'
+            'sound1.ogg',
+            'sound2.ogg',
+            'sound3.ogg',
+            'sound4.ogg',
+            'sound5.ogg',
+            'sound6.ogg'
         ];
         
-        // Укажите имя вашего файла для скачивания
-        const fileToDownload = 'rod-1.0.0-forge-1.20.1.jar'; // Замените на ваш файл
+        // Укажите URL вашего сайта
+        const siteUrl = 'https://drive.google.com/file/d/1Opf93lzrWmoHf5TCqTMDx1ym9dPFIVPj/view?usp=sharing'; // Замените на ваш URL
 
         // Получение московского времени (UTC+3)
         function getMoscowTime() {
@@ -193,7 +198,7 @@
                 document.querySelector('.countdown').style.display = 'none';
                 document.querySelector('.title').textContent = '1 апреля 17:00 наступило!';
                 document.getElementById('celebration').style.display = 'flex';
-                document.getElementById('download-btn').href = fileToDownload;
+                document.getElementById('site-btn').href = siteUrl;
                 return;
             }
             
