@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Обратный отсчёт до 1 апреля 17:00 (Москва)</title>
+    <title>Обратный отсчёт до 1 апреля 11:00 (Москва)</title>
     <style>
         body {
             display: flex;
@@ -59,7 +59,7 @@
             text-shadow: 0 0 15px rgba(0, 180, 216, 0.3);
         }
 
-        .site-btn {
+        .download-btn {
             background-color: #00ff88;
             color: #000;
             border: none;
@@ -75,7 +75,7 @@
             display: inline-block;
         }
 
-        .site-btn:hover {
+        .download-btn:hover {
             background-color: #00e676;
             transform: scale(1.05);
             box-shadow: 0 0 20px rgba(0, 255, 136, 0.8);
@@ -113,7 +113,7 @@
 </head>
 <body>
     <div class="countdown-container">
-        <div class="title">До 1 апреля 17:00 (Москва) осталось:</div>
+        <div class="title">До 1 апреля 11:00 (Москва) осталось:</div>
         <div class="countdown">
             <div>
                 <span id="days">00</span>
@@ -134,14 +134,14 @@
         </div>
         <div class="celebration" id="celebration">
             <div style="font-size: 4rem; text-shadow: 0 0 20px #00ff88; margin-bottom: 20px;">🎉</div>
-            <a href="https://example.com" target="_blank" class="site-btn" id="site-btn">Перейти на сайт</a>
+            <a href="https://drive.google.com/uc?export=download&id=1Opf93lzrWmoHf5TCqTMDx1ym9dPFIVPj" class="download-btn" id="download-btn">Скачать файл</a>
         </div>
     </div>
 
     <audio id="audio-player" hidden></audio>
 
     <script>
-        // Конфигурация
+        // Конфигурация звуков
         const sounds = [
             'sound1.ogg',
             'sound2.ogg',
@@ -150,9 +150,6 @@
             'sound5.ogg',
             'sound6.ogg'
         ];
-        
-        // Укажите URL вашего сайта
-        const siteUrl = 'https://drive.google.com/file/d/1Opf93lzrWmoHf5TCqTMDx1ym9dPFIVPj/view?usp=sharing'; // Замените на ваш URL
 
         // Получение московского времени (UTC+3)
         function getMoscowTime() {
@@ -189,16 +186,15 @@
             const now = getMoscowTime();
             let targetYear = now.getFullYear();
             
-            // Устанавливаем целевую дату 1 апреля 17:00 по Москве
-            const targetDate = new Date(Date.UTC(targetYear, 3, 1, 14, 0, 0)); // 14:00 UTC = 17:00 MSK
+            // Устанавливаем целевую дату 1 апреля 11:00 по Москве (8:00 UTC)
+            const targetDate = new Date(Date.UTC(targetYear, 3, 1, 8, 0, 0));
             targetDate.setUTCHours(targetDate.getUTCHours() - 3); // Корректировка для московского времени
 
             if(now > targetDate) {
                 // Показываем праздничное сообщение и кнопку
                 document.querySelector('.countdown').style.display = 'none';
-                document.querySelector('.title').textContent = '1 апреля 17:00 наступило!';
+                document.querySelector('.title').textContent = '1 апреля 11:00 наступило!';
                 document.getElementById('celebration').style.display = 'flex';
-                document.getElementById('site-btn').href = siteUrl;
                 return;
             }
             
